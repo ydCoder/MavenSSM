@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.mavenssm.dao.CustomerDao">
+
+
+
+    <resultMap id="BaseResultMap" type="org.mavenssm.entity.Customer">
+        <id column="c_id" property="c_id" jdbcType="INTEGER"/>
+        <result column="c_name" property="c_name" jdbcType="VARCHAR"/>
+        <result column="c_telephone" property="c_telephone" jdbcType="VARCHAR"/>
+        <result column="c_address" property="c_address" jdbcType="VARCHAR"/>
+        <result column="c_remark" property="c_remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!-- 客户信息保存的方法 -->
+    <insert id="save" parameterType="org.mavenssm.entity.Customer">
+        insert into
+        customer(
+        c_id,
+        c_name,
+        c_telephone,
+        c_address,
+        c_remark)
+        values(
+        #{c_id},
+        #{c_name},
+        #{c_telephone},
+        #{c_address},
+        #{c_remark}
+        );
+    </insert>
+
+    <!-- 根据id删除信息的方法 -->
+    <delete id="delete" parameterType="int">
+        delete from customer where c_id = #{c_id}
+    </delete>
+
+
+    <!-- 更新客户信息的方法 -->
+    <update id="update" parameterType="Customer">
+        update customer set
+        c_id = #{c_id},
+        c_name = #{c_name},
+        c_telephone = #{c_telephone},
+        c_address = #{c_address},
+        c_remark = #{c_remark}
+        where c_id = #{c_id}
+    </update>
+
+    <!-- 根据客户id查询客户信息的方法 -->
+    <select id="findById" parameterType="int" resultType="Customer">
+        select * from customer where c_id = #{c_id}
+    </select>
+
+    <!--/查询所有客户-->
+    <select id="findAll"  resultMap="BaseResultMap">
+        SELECT  * FROM  customer
+    </select>
+    <!-- 查询customer表中最后一个字段的的主键值   id值降序排列取第一个值 -->
+    <select id="findLastId" resultType="int">
+        select c_id from customer order by c_id desc limit 1;
+    </select>
+
+
+
+
+</mapper>
